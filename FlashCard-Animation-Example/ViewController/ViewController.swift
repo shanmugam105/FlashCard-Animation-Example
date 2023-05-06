@@ -39,24 +39,26 @@ extension ViewController {
         ])
     }
     
-    @objc func didPan(_ sender: UIPanGestureRecognizer) {
-        if sender.state == .ended {
+    @objc func didPan(_ gesture: UIPanGestureRecognizer) {
+        guard let gestureView = gesture.view else { return }
+        if gesture.state == .ended {
             UIView.animate(withDuration: 0.2) {[weak self] in
                 guard let self else { return }
-                sender.view?.center = self.view.center
-                sender.view?.transform = CGAffineTransform.identity
+                gestureView.center = self.view.center
+                gestureView.transform = CGAffineTransform.identity
             }
         }
 
-        let translation = sender.translation(in: self.view)
+        let translation = gesture.translation(in: self.view)
         if translation.x == 0, translation.y == 0 { return }
-        let translationX: CGFloat = (sender.view?.center.x ?? 0.0) + translation.x
-        let translationY: CGFloat = (sender.view?.center.y ?? 0.0) + translation.y
-        sender.view?.center = CGPoint(x: translationX, y: translationY)
+        let translationX: CGFloat = gestureView.center.x + translation.x
+        let translationY: CGFloat = gestureView.center.y + translation.y
+        gestureView.center = CGPoint(x: translationX, y: translationY)
         
-        let swipeDirection = sender.horizontalDirection(target: self.view)
+        let swipeDirection = gesture.horizontalDirection(target: self.view)
+        
         // Tilt the angle
-        var angleDeg: CGFloat = min(translationX / sender.view!.bounds.size.width * 90, 5)
+        var angleDeg: CGFloat = min(translationX / gestureView.bounds.size.width * 90, 5)
         
         if swipeDirection == .Left {
             angleDeg *= -1
@@ -64,8 +66,8 @@ extension ViewController {
         UIView.animate(withDuration: 0.2) {[weak self] in
             guard let self else { return }
             let rotate = CGAffineTransform(rotationAngle: angleDeg / 180 * .pi)
-            sender.view?.transform = rotate
-            sender.setTranslation(CGPoint.zero, in: self.view)
+            gestureView.transform = rotate
+            gesture.setTranslation(CGPoint.zero, in: self.view)
         }
     }
 }
