@@ -7,80 +7,88 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        showCard()
-    }
+protocol FlashCardViewDelegate where Self: UIViewController {
+    func dismissCard(on direction: UIPanGestureRecognizer.GestureDirection)
+    func didCardSwiping(on direction: UIPanGestureRecognizer.GestureDirection)
 }
 
-extension ViewController {
-    func showCard() {
-        lazy var baseView: UIView = {
-            let view: UIView = .init()
-            let pangestureRecogniser: UIPanGestureRecognizer = .init(target: self, action: #selector(didPan))
-            pangestureRecogniser.require(toFail: pangestureRecogniser)
-            view.translatesAutoresizingMaskIntoConstraints = false
-            view.addGestureRecognizer(pangestureRecogniser)
-            view.isUserInteractionEnabled = true
-            view.backgroundColor = .lightGray
-            view.cornerRadius()
-            return view
-        }()
-        
-        self.view.addSubview(baseView)
-        let padding: CGFloat = 30
-        NSLayoutConstraint.activate([
-            baseView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: padding * 2),
-            baseView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: padding),
-            baseView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -padding),
-            baseView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -padding * 2),
-        ])
+class FlashCardView: UIView {
+    private var screenSize: CGSize = UIScreen.main.bounds.size
+    private weak var delegate: FlashCardViewDelegate?
+    private lazy var panGesture: UIPanGestureRecognizer = {
+        let pangestureRecogniser: UIPanGestureRecognizer = .init(target: self, action: #selector(didPan))
+        pangestureRecogniser.require(toFail: pangestureRecogniser)
+        return pangestureRecogniser
+    }()
+    
+    func configureCard(delegate: FlashCardViewDelegate?) {
+        self.delegate = delegate
+        self.layer.masksToBounds = true
+        self.addGestureRecognizer(panGesture)
     }
     
     @objc func didPan(_ gesture: UIPanGestureRecognizer) {
-        guard let gestureView = gesture.view else { return }
+        guard let gestureView = gesture.view, let delegate else { return }
+        let swipeDirection = gesture.horizontalDirection(target: delegate.view)
         if gesture.state == .ended {
-            UIView.animate(withDuration: 0.2) {[weak self] in
-                guard let self else { return }
-                gestureView.center = self.view.center
+            let padding: CGFloat = 40
+            if swipeDirection == .Left || swipeDirection == .Right {
+                let leadingPadding: CGFloat = padding
+                let trailingPadding: CGFloat = screenSize.width - padding
+                if gestureView.center.x < leadingPadding || gestureView.center.x > trailingPadding {
+                    delegate.dismissCard(on: swipeDirection)
+                }
+            } else if swipeDirection == .Up || swipeDirection == .Down {
+                let topPadding: CGFloat = padding
+                let bottomPadding: CGFloat = screenSize.height - padding
+                if gestureView.center.y < topPadding || gestureView.center.y > bottomPadding {
+                    delegate.dismissCard(on: swipeDirection)
+                }
+            }
+            UIView.animate(withDuration: 0.2) {
+                gestureView.center = delegate.view.center
                 gestureView.transform = CGAffineTransform.identity
             }
+            return
         }
-
-        let translation = gesture.translation(in: self.view)
+        delegate.didCardSwiping(on: swipeDirection)
+        let translation = gesture.translation(in: delegate.view)
         if translation.x == 0, translation.y == 0 { return }
         let translationX: CGFloat = gestureView.center.x + translation.x
         let translationY: CGFloat = gestureView.center.y + translation.y
         gestureView.center = CGPoint(x: translationX, y: translationY)
-        
-        let swipeDirection = gesture.horizontalDirection(target: self.view)
-        
         // Tilt the angle
-        var angleDeg: CGFloat = min(translationX / gestureView.bounds.size.width * 90, 5)
-        
-        if swipeDirection == .Left {
+        var angleDeg: CGFloat = min(abs(translationX) / gestureView.bounds.size.width * 90, 5)
+        if swipeDirection == .Left, translationX < delegate.view.center.x {
             angleDeg *= -1
+        } else if swipeDirection == .Right, translationX > delegate.view.center.x {
+            angleDeg *= 1
+        } else {
+            angleDeg = 0
         }
-        UIView.animate(withDuration: 0.2) {[weak self] in
-            guard let self else { return }
+        UIView.animate(withDuration: 0.2) {
             let rotate = CGAffineTransform(rotationAngle: angleDeg / 180 * .pi)
             gestureView.transform = rotate
-            gesture.setTranslation(CGPoint.zero, in: self.view)
+            gesture.setTranslation(CGPoint.zero, in: delegate.view)
         }
     }
 }
 
-extension UIView {
-    func cornerRadius(radius: CGFloat = 8.0) {
-        self.layer.cornerRadius = radius
+class ViewController: UIViewController, FlashCardViewDelegate {
+    
+    @IBOutlet weak var flashCardView: FlashCardView!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        flashCardView.configureCard(delegate: self)
+        flashCardView.backgroundColor = .lightGray
     }
-}
-
-extension CGFloat {
-    func toRadian() -> Self {
-        self * .pi / 180
+    
+    func dismissCard(on direction: UIPanGestureRecognizer.GestureDirection) {
+        print(#function, direction)
+    }
+    
+    func didCardSwiping(on direction: UIPanGestureRecognizer.GestureDirection) {
+        print(#function, direction)
     }
 }
 
