@@ -18,8 +18,20 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lFk-Up-m4D" customClass="FlashCardView" customModule="FlashCard_Animation_Example" customModuleProvider="target">
-                                <rect key="frame" x="40" y="159" width="313" height="534"/>
+                                <rect key="frame" x="40" y="254" width="313" height="344"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="food-offer-banner-design-template-310990ec597c4f499869138767343618_screen" translatesAutoresizingMaskIntoConstraints="NO" id="k7n-lS-Evr">
+                                        <rect key="frame" x="0.0" y="0.0" width="313" height="344"/>
+                                    </imageView>
+                                </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="k7n-lS-Evr" secondAttribute="bottom" id="GUw-YG-PiD"/>
+                                    <constraint firstAttribute="trailing" secondItem="k7n-lS-Evr" secondAttribute="trailing" id="JgP-Af-aOO"/>
+                                    <constraint firstItem="k7n-lS-Evr" firstAttribute="top" secondItem="lFk-Up-m4D" secondAttribute="top" id="MdM-Ai-1nr"/>
+                                    <constraint firstAttribute="width" secondItem="lFk-Up-m4D" secondAttribute="height" multiplier="1:1.1" id="MkK-Zt-4Ar"/>
+                                    <constraint firstItem="k7n-lS-Evr" firstAttribute="leading" secondItem="lFk-Up-m4D" secondAttribute="leading" id="fOz-8D-qaD"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -28,7 +40,6 @@
                             <constraint firstItem="lFk-Up-m4D" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Fcd-zc-UzD"/>
                             <constraint firstItem="lFk-Up-m4D" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="V5f-sh-Nj6"/>
                             <constraint firstItem="lFk-Up-m4D" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="uyr-IP-yam"/>
-                            <constraint firstItem="lFk-Up-m4D" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="100" id="xbG-r7-LWN"/>
                         </constraints>
                     </view>
                     <connections>
@@ -41,6 +52,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="food-offer-banner-design-template-310990ec597c4f499869138767343618_screen" width="691" height="691"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

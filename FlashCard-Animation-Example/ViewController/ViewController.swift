@@ -13,14 +13,17 @@ class ViewController: UIViewController, FlashCardViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         flashCardView.configureCard(delegate: self)
-        flashCardView.backgroundColor = .lightGray
     }
     
     func dismissCard(on direction: UIPanGestureRecognizer.GestureDirection) {
-        print(#function, direction)
+        flashCardView.removeFromSuperview()
     }
     
     func didCardSwiping(on direction: UIPanGestureRecognizer.GestureDirection) {
-        print(#function, direction)
+        print(direction)
+    }
+    
+    func didCardTapped() {
+        print("Tapped")
     }
 }

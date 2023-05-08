@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "food-offer-banner-design-template-310990ec597c4f499869138767343618_screen.jpeg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

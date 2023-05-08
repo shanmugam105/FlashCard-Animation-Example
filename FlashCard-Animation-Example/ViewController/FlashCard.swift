@@ -8,8 +8,14 @@
 import UIKit
 
 public protocol FlashCardViewDelegate where Self: UIViewController {
+    func didCardTapped()
     func dismissCard(on direction: UIPanGestureRecognizer.GestureDirection)
     func didCardSwiping(on direction: UIPanGestureRecognizer.GestureDirection)
+}
+
+extension FlashCardViewDelegate {
+    func didCardTapped(){}
+    func didCardSwiping(on direction: UIPanGestureRecognizer.GestureDirection){}
 }
 
 public class FlashCardView: UIView {
@@ -21,10 +27,21 @@ public class FlashCardView: UIView {
         return pangestureRecogniser
     }()
     
+    private lazy var tapGesture: UITapGestureRecognizer = {
+        let tapgestureRecogniser: UITapGestureRecognizer = .init(target: self, action: #selector(didTapped))
+        tapgestureRecogniser.numberOfTapsRequired = 1
+        return tapgestureRecogniser
+    }()
+    
     public func configureCard(delegate: FlashCardViewDelegate?) {
         self.delegate = delegate
         self.layer.masksToBounds = true
         self.addGestureRecognizer(panGesture)
+        self.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func didTapped(_ gesture: UITapGestureRecognizer) {
+        delegate?.didCardTapped()
     }
     
     @objc private func didPan(_ gesture: UIPanGestureRecognizer) {
