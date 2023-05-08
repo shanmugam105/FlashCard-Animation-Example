@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FpC-Ux-hZu">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -10,9 +10,51 @@
     </dependencies>
     <scenes>
         <!--View Controller-->
+        <scene sceneID="gF0-Xy-hOf">
+            <objects>
+                <viewController id="FpC-Ux-hZu" customClass="ViewController" customModule="FlashCard_Animation_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Niq-Aa-waR">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2RQ-b7-4C7">
+                                <rect key="frame" x="25" y="760" width="343" height="50"/>
+                                <color key="backgroundColor" red="0.16350474470000001" green="0.34366472939999998" blue="0.78039215689999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="xRZ-AQ-8nX"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Check Offer">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="checkOfferTapped:" destination="FpC-Ux-hZu" eventType="touchUpInside" id="2Jg-EL-WUA"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Djg-cw-IIJ"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="2RQ-b7-4C7" firstAttribute="leading" secondItem="Djg-cw-IIJ" secondAttribute="leading" constant="25" id="405-Pc-IoB"/>
+                            <constraint firstItem="Djg-cw-IIJ" firstAttribute="bottom" secondItem="2RQ-b7-4C7" secondAttribute="bottom" constant="8" id="R8Z-hJ-WEa"/>
+                            <constraint firstItem="2RQ-b7-4C7" firstAttribute="centerX" secondItem="Niq-Aa-waR" secondAttribute="centerX" id="SxF-6C-Dmd"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xDm-Cs-gJe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-598" y="5"/>
+        </scene>
+        <!--Special Offer View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="FlashCard_Animation_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SpecialOfferViewController" id="BYZ-38-t0r" customClass="SpecialOfferViewController" customModule="FlashCard_Animation_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -43,7 +85,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="flashCardView" destination="lFk-Up-m4D" id="leQ-2G-QPs"/>
+                        <outlet property="flashCardView" destination="lFk-Up-m4D" id="7eg-BZ-V8X"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

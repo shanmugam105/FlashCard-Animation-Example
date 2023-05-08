@@ -7,23 +7,17 @@
 
 import UIKit
 
-class ViewController: UIViewController, FlashCardViewDelegate {
+class ViewController: UIViewController {
     
-    @IBOutlet weak var flashCardView: FlashCardView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        flashCardView.configureCard(delegate: self)
+        
     }
-    
-    func dismissCard(on direction: UIPanGestureRecognizer.GestureDirection) {
-        flashCardView.removeFromSuperview()
-    }
-    
-    func didCardSwiping(on direction: UIPanGestureRecognizer.GestureDirection) {
-        print(direction)
-    }
-    
-    func didCardTapped() {
-        print("Tapped")
+    @IBAction func checkOfferTapped(_ sender: Any) {
+        let vc: UIViewController = storyboard?.instantiateViewController(withIdentifier: "SpecialOfferViewController") as! SpecialOfferViewController
+        vc.modalPresentationStyle = .overCurrentContext
+        vc.modalTransitionStyle = .crossDissolve
+        self.present(vc, animated: true)
+        
     }
 }

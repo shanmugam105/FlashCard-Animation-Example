@@ -54,12 +54,14 @@ public class FlashCardView: UIView {
                 let trailingPadding: CGFloat = screenSize.width - padding
                 if gestureView.center.x < leadingPadding || gestureView.center.x > trailingPadding {
                     delegate.dismissCard(on: swipeDirection)
+                    return
                 }
             } else if swipeDirection == .Up || swipeDirection == .Down {
                 let topPadding: CGFloat = padding
                 let bottomPadding: CGFloat = screenSize.height - padding
                 if gestureView.center.y < topPadding || gestureView.center.y > bottomPadding {
                     delegate.dismissCard(on: swipeDirection)
+                    return
                 }
             }
             UIView.animate(withDuration: 0.2) {
